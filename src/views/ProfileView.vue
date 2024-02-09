@@ -10,6 +10,8 @@ const user = {
   lastName: 'Doe',
   email: 'john.doe@email.com',
   phoneNumber: '123-456-7890',
+  institutionId: 3,
+  programId: 2,
 };
 
 </script>
