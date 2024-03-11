@@ -1,14 +1,14 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import IconHamburgerMenu from './icons/IconHamburgerMenu.vue';
-import IconUser from './icons/IconUser.vue';
-import IconStudyBuddyLogo from './icons/IconStudyBuddyLogo.vue';
+import IconHamburgerMenu from './Icons/IconHamburgerMenu.vue';
+import IconUser from './Icons/IconUser.vue';
+import IconStudyBuddyLogo from './Icons/IconStudyBuddyLogo.vue';
 
 const isMenuOpen = ref(false);
 
 // TODO: implement auth
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 const navLinks = isLoggedIn === false ? [
     { path: '/about', text: 'About', current: false },
