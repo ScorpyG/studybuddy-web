@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import IconHamburgerMenu from './Icons/IconHamburgerMenu.vue';
@@ -8,7 +8,7 @@ import IconStudyBuddyLogo from './Icons/IconStudyBuddyLogo.vue';
 const isMenuOpen = ref(false);
 
 // TODO: implement auth
-const isLoggedIn = true;
+const isLoggedIn = false;
 
 const navLinks = isLoggedIn === false ? [
     { path: '/about', text: 'About', current: false },
@@ -20,6 +20,23 @@ const navLinks = isLoggedIn === false ? [
     { path: '/contact', text: 'Contact', current: false },
     { path: '/profile', text: 'Profile', current: false },
 ];
+
+export default {
+    components: {
+        RouterLink,
+        IconHamburgerMenu,
+        IconUser,
+        IconStudyBuddyLogo
+    },
+    setup() {
+        return {
+            isMenuOpen,
+            isLoggedIn,
+            navLinks
+        }
+    }
+
+}
 </script>
 
 <template>

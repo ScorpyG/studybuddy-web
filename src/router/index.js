@@ -57,6 +57,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // User is not authenticated, redirect to login
       next('/signin');
+      // next();
     }
   } else {
     // Non-protected route, allow access

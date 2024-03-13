@@ -1,59 +1,44 @@
-<script setup>
-// TODO: handle form submission + API call
-const handleOnSubmit = (event) => {
-  event.preventDefault();
-  const firstName = event.target.firstName.value;
-  const lastName = event.target.lastName.value;
-  const email = event.target.email.value;
-  const phone = event.target.phone.value;
-  const password = event.target.password.value;
-  const confirmPassword = event.target.confirmPassword.value;
-  const institution = event.target.institutions.value;
-  const program = event.target.programs.value;
-
-  console.log({
-    firstName,
-    lastName,
-    email,
-    phone,
-    password,
-    confirmPassword,
-    institution,
-    program
-  });
-};
-
-// TODO: fetch programs from API
-const programs = [
-  {
-    id: 1,
-    name: "Computer Science"
+<script>
+export default {
+  props: {
+    programs: {
+      type: Array,
+      required: true
+    },
+    institutions: {
+      type: Array,
+      required: true
+    },
+    hobbies: {
+      type: Array,
+      required: true
+    }
   },
-  {
-    id: 2,
-    name: "Business"
-  },
-  {
-    id: 3,
-    name: "Accounting"
+  methods: {
+    handleOnSubmit(event) {
+      event.preventDefault();
+      const firstName = event.target.firstName.value;
+      const lastName = event.target.lastName.value;
+      const email = event.target.email.value;
+      const phone = event.target.phone.value;
+      const password = event.target.password.value;
+      const confirmPassword = event.target.confirmPassword.value;
+      const institution = event.target.institutions.value;
+      const program = event.target.programs.value;
+
+      console.log({
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+        confirmPassword,
+        institution,
+        program
+      });
+    },
   }
-];
-
-// TODO: fetch institutions from API
-const institutions = [
-  {
-    id: 1,
-    name: "Simon Fraser University"
-  },
-  {
-    id: 2,
-    name: "University of British Columbia"
-  },
-  {
-    id: 3,
-    name: "Victoria University"
-  }
-];
+}
 
 </script>
 
@@ -138,7 +123,7 @@ const institutions = [
       <label for="programs" class="block font-medium leading-6 text-gray-900">Academic Program / Major</label>
       <select name="programs" id="programs" class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1">
         <option selected>Select your program</option>
-        <option v-for="program in programs" :value="program.id">{{ program.name }}</option>
+        <option v-for="program in programs" :value="program">{{ program.title }}</option>
       </select>
     </div>
     
@@ -146,7 +131,15 @@ const institutions = [
       <label for="institutions" class="block font-medium leading-6 text-gray-900">Academic Institution</label>
       <select name="institutions" id="institutions" class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1">
         <option selected>Select your institution</option>
-        <option v-for="institution in institutions" :value="institution.id">{{ institution.name }}</option>
+        <option v-for="institution in institutions" :value="institution">{{ institution.name }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="hobbies" class="block font-medium leading-6 text-gray-900">Hobbies</label>
+      <select name="hobbies" id="hobbies" class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1">
+        <option selected>Select your hobbies</option>
+        <option v-for="hobby in hobbies" :value="hobby">{{ hobby.name }}</option>
       </select>
     </div>
   

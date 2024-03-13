@@ -1,16 +1,18 @@
-<script setup>
-// TODO: handle form submission + API call
-const handleOnSubmit = (event) => {
-    event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+<script>
+export default {
+    methods: {
+        handleOnSubmit(event) {
+            event.preventDefault();
+            const email = event.target.email.value;
+            const password = event.target.password.value;
 
-    console.log({
-        email,
-        password
-    });
-};
-
+            console.log({
+                email,
+                password
+            });
+        }
+    }
+}
 </script>
 
 <template>
