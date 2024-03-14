@@ -1,6 +1,6 @@
 import http from '../http-common';
 
-const API_URL = 'http://localhost:8080/api/institutions';
+const API_URL = `${import.meta.env.VITE_API_URL}institutions`;
 
 class InstitutionService {
     getAllInstitutions() {

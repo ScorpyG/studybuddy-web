@@ -2,7 +2,6 @@
 import ProgramService from '@/services/ProgramService';
 import SignUpForm from '@/components/Forms/SignUpForm.vue';
 import InstitutionService from '@/services/InstitutionService';
-import HobbyService from '@/services/HobbyService';
 
 export default {
     name: 'SignUpView',
@@ -34,18 +33,14 @@ export default {
                 console.log(error);
             });
         },
-        getAllHobbies() {
-            HobbyService.getAllHobbies().then((response) => {
-                this.hobbies = response.data;
-            }).catch((error) => {
-                console.log(error);
-            });
-        },
+        createNewUser(newUser) {
+            console.log('Form submitted');
+            console.log(newUser);
+        }
     },
     created() {
         this.getAllPrograms();
         this.getAllInstitutions();
-        this.getAllHobbies();
     }
 } 
 </script>
@@ -57,7 +52,7 @@ export default {
             <p class=" text-xs md:text-lg font-semibold text-center">Let's find you a study<b>buddy</b></p>
         </div>  
         
-        <SignUpForm :programs="programs" :institutions="institutions" :hobbies="hobbies"/>
+        <SignUpForm :programs="programs" :institutions="institutions" :hobbies="hobbies" @createNewUser="createNewUser"/>
 
         <div class="my-4 text-center">
             Already a member? <RouterLink to="/signin" class="text-blue-400"><b>Sign in</b></RouterLink>

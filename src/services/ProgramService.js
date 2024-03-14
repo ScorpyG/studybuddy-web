@@ -1,6 +1,6 @@
 import http from '../http-common';
 
-const API_URL = 'http://localhost:8080/api/programs';
+const API_URL = `${import.meta.env.VITE_API_URL}/programs`;
 
 class ProgramService {
     getAllPrograms() {
