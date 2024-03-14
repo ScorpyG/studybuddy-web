@@ -1,33 +1,51 @@
 <script>
-import { onBeforeMount, onMounted, ref } from 'vue';
-import axios from 'axios';
+import ProgramService from '@/services/ProgramService';
 import SignUpForm from '@/components/Forms/SignUpForm.vue';
-
-const programs = ref([]);
-const institutions = ref([]);
-const hobbies = ref([]);
+import InstitutionService from '@/services/InstitutionService';
+import HobbyService from '@/services/HobbyService';
 
 export default {
+    name: 'SignUpView',
     components: {
         SignUpForm
     },
-    beforeMount() {
-        axios.get('http://localhost:8080/api/programs').then(response => {
-            this.programs = response.data;
-        });
-        axios.get('http://localhost:8080/api/institutions').then(response => {
-            this.institutions = response.data;
-        });
-        axios.get('http://localhost:8080/api/hobbies').then(response => {
-            this.hobbies = response.data;
-        });
-    },
-    setup() {
+    data() {
         return {
-            programs,
-            institutions,
-            hobbies
+            programs: [],
+            institutions: [],
+            hobbies: []
         }
+    },
+    components: {
+        SignUpForm
+    },
+    methods: {
+        getAllPrograms() {
+            ProgramService.getAllPrograms().then((response) => {
+                this.programs = response.data;
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        getAllInstitutions() {
+            InstitutionService.getAllInstitutions().then((response) => {
+                this.institutions = response.data;
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        getAllHobbies() {
+            HobbyService.getAllHobbies().then((response) => {
+                this.hobbies = response.data;
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+    },
+    created() {
+        this.getAllPrograms();
+        this.getAllInstitutions();
+        this.getAllHobbies();
     }
 } 
 </script>

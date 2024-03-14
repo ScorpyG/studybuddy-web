@@ -23,9 +23,11 @@ export default {
       const phone = event.target.phone.value;
       const password = event.target.password.value;
       const confirmPassword = event.target.confirmPassword.value;
-      const institution = event.target.institutions.value;
-      const program = event.target.programs.value;
+      const institution = JSON.parse(event.target.institutions.value);
+      const program = JSON.parse(event.target.programs.value);
+      const hobbies = JSON.parse(event.target.hobbies.value);
 
+      // TODO: handle signup event
       console.log({
         firstName,
         lastName,
@@ -34,7 +36,8 @@ export default {
         password,
         confirmPassword,
         institution,
-        program
+        program,
+        hobbies
       });
     },
   }
@@ -123,7 +126,7 @@ export default {
       <label for="programs" class="block font-medium leading-6 text-gray-900">Academic Program / Major</label>
       <select name="programs" id="programs" class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1">
         <option selected>Select your program</option>
-        <option v-for="program in programs" :value="program">{{ program.title }}</option>
+        <option v-for="program in programs" :value="JSON.stringify(program)">{{ program.title }}</option>
       </select>
     </div>
     
@@ -131,7 +134,7 @@ export default {
       <label for="institutions" class="block font-medium leading-6 text-gray-900">Academic Institution</label>
       <select name="institutions" id="institutions" class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1">
         <option selected>Select your institution</option>
-        <option v-for="institution in institutions" :value="institution">{{ institution.name }}</option>
+        <option v-for="institution in institutions" :value="JSON.stringify(institution)">{{ institution.name }}</option>
       </select>
     </div>
 
@@ -139,7 +142,7 @@ export default {
       <label for="hobbies" class="block font-medium leading-6 text-gray-900">Hobbies</label>
       <select name="hobbies" id="hobbies" class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1">
         <option selected>Select your hobbies</option>
-        <option v-for="hobby in hobbies" :value="hobby">{{ hobby.name }}</option>
+        <option v-for="hobby in hobbies" :value="JSON.stringify(hobby)">{{ hobby.name }}</option>
       </select>
     </div>
   
