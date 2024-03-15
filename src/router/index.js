@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 
 // TODO: implement authentication
 // https://medium.com/@tahnyybelguith/authentication-and-authorization-implementation-with-vue-js-6afcbb821c85
@@ -57,6 +57,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // User is not authenticated, redirect to login
       next('/signin');
+      // next();
     }
   } else {
     // Non-protected route, allow access

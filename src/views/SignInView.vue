@@ -1,6 +1,13 @@
-<script setup>
+<script>
 import SignInForm from '@/components/Forms/SignInForm.vue';
 import { RouterLink } from 'vue-router';
+
+export default {
+    components: {
+        SignInForm,
+        RouterLink
+    }
+}
 
 </script>
 

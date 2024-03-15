@@ -1,20 +1,22 @@
-<script setup>
+<script>
+export default {
+    methods: {
+        handleOnSubmit(e) {
+            e.preventDefault();
 
-// TODO: handle form submission + NodeMailer
-const handleOnSubmit = (e) => {
-    e.preventDefault();
+            const firstName = e.target.firstName.value;
+            const lastName = e.target.lastName.value;
+            const email = e.target.email.value;
+            const message = e.target.message.value;
 
-    const firstName = e.target.firstName.value;
-    const lastName = e.target.lastName.value;
-    const email = e.target.email.value;
-    const message = e.target.message.value;
-
-    console.log({
-        firstName,
-        lastName,
-        email,
-        message
-    });
+            console.log({
+                firstName,
+                lastName,
+                email,
+                message
+            });
+        }
+    }
 }
 </script>
 

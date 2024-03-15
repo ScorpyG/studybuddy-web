@@ -1,9 +1,9 @@
-<script setup>
+<script>
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import IconHamburgerMenu from './icons/IconHamburgerMenu.vue';
-import IconUser from './icons/IconUser.vue';
-import IconStudyBuddyLogo from './icons/IconStudyBuddyLogo.vue';
+import IconHamburgerMenu from './Icons/IconHamburgerMenu.vue';
+import IconUser from './Icons/IconUser.vue';
+import IconStudyBuddyLogo from './Icons/IconStudyBuddyLogo.vue';
 
 const isMenuOpen = ref(false);
 
@@ -20,6 +20,23 @@ const navLinks = isLoggedIn === false ? [
     { path: '/contact', text: 'Contact', current: false },
     { path: '/profile', text: 'Profile', current: false },
 ];
+
+export default {
+    components: {
+        RouterLink,
+        IconHamburgerMenu,
+        IconUser,
+        IconStudyBuddyLogo
+    },
+    setup() {
+        return {
+            isMenuOpen,
+            isLoggedIn,
+            navLinks
+        }
+    }
+
+}
 </script>
 
 <template>

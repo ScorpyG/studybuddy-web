@@ -1,5 +1,11 @@
-<script setup>
+<script>
 import ContactForm from '@/components/Forms/ContactForm.vue';
+
+export default {
+    components: {
+        ContactForm
+    }
+}
 
 </script>
 
