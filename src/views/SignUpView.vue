@@ -2,6 +2,8 @@
 import ProgramService from '@/services/ProgramService';
 import SignUpForm from '@/components/Forms/SignUpForm.vue';
 import InstitutionService from '@/services/InstitutionService';
+import { toast } from 'vue3-toastify';
+import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/helper/helpers'; 
 
 export default {
     name: 'SignUpView',
@@ -34,8 +36,32 @@ export default {
             });
         },
         createNewUser(newUser) {
-            console.log('Form submitted');
-            console.log(newUser);
+            if (newUser.firstName === '') {
+                toast.error("First name is required");
+            } 
+            else if (newUser.lastName === '') {
+                toast.error("Last name is required");
+            } 
+            else if (!newUser.email.match(EMAIL_REGEX) || newUser.email === '') {
+                toast.error("Please enter a valid email address");
+            } 
+            else if (!newUser.phoneNumber.match(PHONE_NUMBER_REGEX) || newUser.phoneNumber === '') {
+                toast.error("Please enter the phone number in specified format");
+            } 
+            else if (newUser.password !== newUser.confirmPassword) {
+                toast.error("Passwords must be match");
+            } 
+            else if (newUser.program === '' || newUser.program === null || newUser.program === undefined) {
+                toast.error("Select your Program");
+            } 
+            else if (newUser.institution === '' || newUser.institution === null || newUser.institution === undefined) {
+                toast.error("Select your Institution");
+            } 
+            else {
+                toast.success("Sign up successful!")
+                console.log(newUser);
+                // TODO: handle userSignUp API call
+            }
         }
     },
     created() {

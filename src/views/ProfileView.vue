@@ -1,7 +1,6 @@
 <script>
 import ProgramService from '@/services/ProgramService';
 import InstitutionService from '@/services/InstitutionService';
-import HobbyService from '@/services/HobbyService';
 import ProfileForm from '@/components/Forms/ProfileForm.vue';
 
 export default {

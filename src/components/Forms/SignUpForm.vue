@@ -8,8 +8,8 @@ export default {
       phoneNumber: '',
       password: '',
       confirmPassword: '',
-      userProgram: 'Select your program',
-      userInstitution: 'Select your institution',
+      userProgram: '',
+      userInstitution: '',
       tempHobby: '',
       userHobbies: []
     }
@@ -145,6 +145,7 @@ export default {
         class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1"
         v-model="userProgram"
       >
+        <option disabled hidden value="">Select your program</option>
         <option v-for="program in programs" :value="JSON.stringify(program)">{{ program.title }}</option>
       </select>
     </div>
@@ -157,6 +158,7 @@ export default {
         class="p-2.5 rounded-lg bg-gray-100 block w-full appearance-none border-0 mt-1"
         v-model="userInstitution"
       >
+        <option disabled hidden value="">Select your institution</option>
         <option v-for="institution in institutions" :value="JSON.stringify(institution)">{{ institution.name }}</option>
       </select>
     </div>
@@ -184,6 +186,7 @@ export default {
         </div>
       </div>
     </div>
+
     <button 
       class="rounded-md p-2.5 font-bold text-white bg-blue-500 hover:bg-blue-700 transition-all w-full mt-2"
       type="submit"
@@ -193,8 +196,9 @@ export default {
         email: email,
         phoneNumber: phoneNumber,
         password: password, 
-        program: JSON.parse(userProgram),
-        institution: JSON.parse(userInstitution),
+        confirmPassword: confirmPassword,
+        program: userProgram,
+        institution: userInstitution,
         hobbies: userHobbies,
       })"
     >
