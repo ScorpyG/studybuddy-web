@@ -1,7 +1,12 @@
 import http from '../http-common';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/users`;
-
 class UserService {
-    
+    async updateUserAccount(userData) {
+        return http.put(`/users/1`, userData);
+    }
+    async getUserData(userId) {
+        return http.get(`/users/${userId}`);
+    }
 }
+
+export default new UserService();

@@ -10,7 +10,7 @@ export default {
       confirmPassword: '',
       userProgram: '',
       userInstitution: '',
-      tempHobby: '',
+      inputHobby: '',
       userHobbies: []
     }
   },
@@ -33,16 +33,40 @@ export default {
       if (this.userHobbies.length >= 3) {
         alert('You can only add up to 3 hobbies');
       } else {
-        if (event.key === 'Enter' && this.tempHobby) {
-          if (!this.userHobbies.includes(this.tempHobby) && !this.userHobbies.includes(this.tempHobby.toLowerCase())) {
-            this.userHobbies.push(this.tempHobby);
+        if (event.key === 'Enter' && this.inputHobby) {
+          if (!this.userHobbies.includes(this.inputHobby) && !this.userHobbies.includes(this.inputHobby.toLowerCase())) {
+            this.userHobbies.push(this.inputHobby);
           }
         }
       }
-      this.tempHobby = '';
+      this.inputHobby = '';
     },
     removeHobby(hobbyToRemove) {
       this.userHobbies = this.userHobbies.filter((hobby) => hobby !== hobbyToRemove);
+    },
+    handleSubmit() {
+      this.$emit('createNewUser', {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        phoneNumber: this.phoneNumber,
+        password: this.password, 
+        confirmPassword: this.confirmPassword,
+        program: this.userProgram,
+        institution: this.userInstitution,
+        hobbies: this.userHobbies,
+      });
+
+      // clear the form fields
+      this.firstName = '';
+      this.lastName = '';
+      this.email = '';
+      this.phoneNumber = '';
+      this.password = '';
+      this.confirmPassword = '';
+      this.userProgram = '';
+      this.userInstitution = '';
+      this.userHobbies = [];
     }
   }
 }
@@ -171,7 +195,7 @@ export default {
         id="hobbies"
         placeholder="Enter your hobbies (up to 3)"
         class="p-2.5 rounded-md bg-gray-100 border-0 w-full mt-1"
-        v-model="tempHobby"
+        v-model="inputHobby"
         @keyup.enter="addHobby"
       />
 
@@ -190,17 +214,7 @@ export default {
     <button 
       class="rounded-md p-2.5 font-bold text-white bg-blue-500 hover:bg-blue-700 transition-all w-full mt-2"
       type="submit"
-      @click.prevent="$emit('createNewUser', {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phoneNumber: phoneNumber,
-        password: password, 
-        confirmPassword: confirmPassword,
-        program: userProgram,
-        institution: userInstitution,
-        hobbies: userHobbies,
-      })"
+      @click.prevent="handleSubmit"
     >
       Sign Up
     </button>
