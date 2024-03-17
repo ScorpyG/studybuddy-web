@@ -4,41 +4,24 @@ import { PHONE_NUMBER_REGEX } from '@/helper/helpers';
 import ProgramService from '@/services/ProgramService';
 import InstitutionService from '@/services/InstitutionService';
 import ProfileForm from '@/components/Forms/ProfileForm.vue';
+import ProfileFormSkeleton from '@/components/Forms/ProfileFormSkeleton.vue';
 import UserService from '@/services/UserService';
 
 export default {
   name: 'ProfileView',
   data() {
     return {
+      submitting: false,
+      loading: false,
       programs: [],
       institutions: [],
       hobbies: [],
-
-      user: {
-        id: 1,
-        firstName: "user",
-        lastName: "tester",
-        phoneNumber: "111-111-1111",
-        program: {
-          id: 1,
-          code: "CSCI",
-          title: "Computer Science"
-        },
-        institution: {
-          id: 1,
-          institutionCode: "AJAE",
-          name: "Douglas College",
-          address: "700 Royal Ave",
-          city: "New Westminster",
-          state: "British Columbia",
-          country: "Canada"
-        },
-        hobbies: ["Basketball", "Soccer", "Volleyball"]
-      }
+      user: {}
     }
   },
   components: {
-    ProfileForm
+    ProfileForm,
+    ProfileFormSkeleton
   },
   methods: {
     getAllPrograms() {
@@ -50,9 +33,20 @@ export default {
     },
     getAllInstitutions() {
       InstitutionService.getAllInstitutions().then((response) => {
-          this.institutions = response.data;
+        this.institutions = response.data;
       }).catch((error) => {
-          toast.error(`${error}. Please try again later.`);
+        toast.error(`${error}. Please try again later.`);
+      });
+    },
+    getUser() {
+      this.loading = true;
+
+      UserService.getUserAccount().then((response) => {
+        this.user = response.data;
+      }).catch((error) => {
+        toast.error(`${error}. Please try again later.`);
+      }).finally(() => {
+        this.loading = false;
       });
     },
     updateUser(userData) {
@@ -81,6 +75,8 @@ export default {
 
     },
     async updateUserRequest(userData) {
+      this.submitting = true;
+
       const userDataParse = {
         firstName: userData.firstName,
         lastName: userData.lastName,
@@ -92,6 +88,7 @@ export default {
 
       await UserService.updateUserAccount(userDataParse).then((response) => {
         return new Promise((resolve) => {
+          this.submitting = false;
           resolve(response);
         });
       }).catch((error) => {
@@ -104,18 +101,17 @@ export default {
   created() {
     this.getAllPrograms();
     this.getAllInstitutions();
+    this.getUser();
   },
 }
 
-// TODO: implement auth ensure only authenticated user can access this page
-// TODO: implement auth to get the user's profile data
 </script>
 
 <template>
     <div class="max-w-7xl mx-auto">
-        <h1 class="text-xl md:text-3xl font-bold text-center my-7">This is an profile page</h1>
+        <h1 class="text-xl md:text-3xl font-bold text-center my-7">Profile</h1>
         
-        <ProfileForm 
+        <ProfileForm v-if="!loading"
           :firstName="user.firstName"
           :lastName="user.lastName"
           :phoneNumber="user.phoneNumber"
@@ -129,6 +125,8 @@ export default {
 
           @updateUser="updateUser"
         />
+
+        <ProfileFormSkeleton v-else />
     </div>
 </template>
 
