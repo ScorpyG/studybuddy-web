@@ -11,7 +11,6 @@ export default {
   name: 'ProfileView',
   data() {
     return {
-      submitting: false,
       loading: false,
       programs: [],
       institutions: [],
@@ -41,13 +40,12 @@ export default {
     getUser() {
       this.loading = true;
 
-      UserService.getUserAccount().then((response) => {
-        this.user = response.data;
-      }).catch((error) => {
-        toast.error(`${error}. Please try again later.`);
-      }).finally(() => {
+      // safe to assume if session storage doesn't contain user data, then user is not logged in
+      const userSessionData = JSON.parse(sessionStorage.getItem('user'));
+      if (userSessionData !== null) {
+        this.user = userSessionData;
         this.loading = false;
-      });
+      }
     },
     updateUser(userData) {
       if (userData.firstName === '') {
@@ -75,8 +73,6 @@ export default {
 
     },
     async updateUserRequest(userData) {
-      this.submitting = true;
-
       const userDataParse = {
         firstName: userData.firstName,
         lastName: userData.lastName,
@@ -86,9 +82,8 @@ export default {
         hobbies: userData.hobbies
       }
 
-      await UserService.updateUserAccount(userDataParse).then((response) => {
+      await UserService.updateUserAccount(userDataParse, this.user.id).then((response) => {
         return new Promise((resolve) => {
-          this.submitting = false;
           resolve(response);
         });
       }).catch((error) => {
@@ -104,7 +99,6 @@ export default {
     this.getUser();
   },
 }
-
 </script>
 
 <template>

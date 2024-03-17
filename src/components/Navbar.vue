@@ -1,25 +1,14 @@
 <script>
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
+import store from '@/store';
 import IconHamburgerMenu from './Icons/IconHamburgerMenu.vue';
 import IconUser from './Icons/IconUser.vue';
 import IconStudyBuddyLogo from './Icons/IconStudyBuddyLogo.vue';
+import AuthService from '@/services/AuthService';
+import router from '@/router';
 
 const isMenuOpen = ref(false);
-
-// TODO: implement auth
-const isLoggedIn = false;
-
-const navLinks = isLoggedIn === false ? [
-    { path: '/about', text: 'About', current: false },
-    { path: '/contact', text: 'Contact', current: false },
-    { path: '/signin', text: 'Sign In', current: false },
-    { path: '/signup', text: 'Sign Up', current: false },
-] : [
-    { path: '/about', text: 'About', current: false },
-    { path: '/contact', text: 'Contact', current: false },
-    { path: '/profile', text: 'Profile', current: false },
-];
 
 export default {
     components: {
@@ -28,14 +17,23 @@ export default {
         IconUser,
         IconStudyBuddyLogo
     },
-    setup() {
+    data() {
         return {
-            isMenuOpen,
-            isLoggedIn,
-            navLinks
+            isMenuOpen: false,
+        }
+    },
+    computed: {
+        isLoggedIn() {
+            return this.$store.state.isLoggedIn;
+        }
+    },
+    methods: {
+        logout() {
+            store.commit('setLoggedInState', false);
+            router.push('/signin');
+            AuthService.logout();
         }
     }
-
 }
 </script>
 
@@ -56,15 +54,29 @@ export default {
                 <div class="hidden md:flex items-center space-x-3">
                     <RouterLink to="/about" class="py-5 px-2 text-base">About</RouterLink>
                     <RouterLink to="/contact" class="py-5 px-2 text-base">Contact</RouterLink>
-                </div>  
+                </div> 
 
                 <!-- auth links -->
                 <div class="hidden md:flex items-center space-x-3">
-                    <RouterLink to="/signin" class="py-5 px-2 font-bold" v-if="isLoggedIn === false">Sign In</RouterLink>
-                    <RouterLink to="/signup" class="py-4 px-2 bg-blue-600 hover:bg-blue-700 transition-all font-bold text-white rounded-md" v-if="isLoggedIn === false">Sign Up</RouterLink>
-                    <RouterLink to="/profile" class="py-5 px-2 flex space-x-2 justify-center items-center" v-if="isLoggedIn === true">
-                        <IconUser class="rounded-full"/>
-                        <span>Profile</span>
+                    <RouterLink 
+                        to="/signin" 
+                        class="py-5 px-2 font-bold" 
+                        v-if="isLoggedIn === false"
+                    >
+                        Sign In
+                    </RouterLink>
+                    <RouterLink 
+                        to="/signup" 
+                        class="py-4 px-2 bg-blue-600 hover:bg-blue-700 transition-all font-bold text-white rounded-md" 
+                        v-if="isLoggedIn === false"
+                    >
+                        Sign Up
+                    </RouterLink>
+
+                    <div class="py-5 px-2 font-bold cursor-pointer hover:font-semibold" v-if="isLoggedIn === true" @click="logout">Logout</div>
+                    <RouterLink to="/profile" class="py-4 px-2 flex space-x-2 justify-center items-center bg-blue-600 hover:bg-blue-700 rounded-md" v-if="isLoggedIn === true">
+                        <IconUser class="rounded-ful text-white"/>
+                        <span class="text-white">Profile</span>
                     </RouterLink>
                 </div>
 
@@ -75,11 +87,19 @@ export default {
                     </button>
                 </div>
             </div>  
-        </div>  
+        </div>
 
         <!-- mobile menu -->
         <div v-if="isMenuOpen">
-            <RouterLink v-for="item in navLinks" :key="item.text" :to="item.path" class="block py-2 px-4 text-md hover:bg-gray-200">{{ item.text }}</RouterLink>
+            <!-- <RouterLink v-for="item in navLinks" :key="item.text" :to="item.path" class="block py-2 px-4 text-md hover:bg-gray-200">{{ item.text }}</RouterLink> -->
+
+            <RouterLink to="/signin" class="block py-2 px-4 text-md hover:bg-gray-200" v-if="isLoggedIn === false">Sign In</RouterLink>
+            <RouterLink to="/signup" class="block py-2 px-4 text-md hover:bg-gray-200" v-if="isLoggedIn === false">Sign Up</RouterLink>
+
+            <RouterLink to="/profile" class="block py-2 px-4 text-md hover:bg-gray-200" v-if="isLoggedIn === true">Profile</RouterLink>
+
+            <RouterLink to="/about" class="block py-2 px-4 text-md hover:bg-gray-200">About</RouterLink>
+            <RouterLink to="/contact" class="block py-2 px-4 text-md hover:bg-gray-200">Contact</RouterLink>
         </div>
     </nav>
 </template>

@@ -2,9 +2,9 @@
 import ProgramService from '@/services/ProgramService';
 import SignUpForm from '@/components/Forms/SignUpForm.vue';
 import InstitutionService from '@/services/InstitutionService';
+import AuthService from '@/services/AuthService';
 import { toast } from 'vue3-toastify';
 import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/helper/helpers'; 
-import AuthService from '@/services/AuthService';
 
 export default {
     name: 'SignUpView',
@@ -26,14 +26,14 @@ export default {
             ProgramService.getAllPrograms().then((response) => {
                 this.programs = response.data;
             }).catch((error) => {
-                toast.error(`${error}. Please try again later.`);
+                toast.error(`${error}. \nUnable to fetch programs. Please try again later.`);
             });
         },
         getAllInstitutions() {
             InstitutionService.getAllInstitutions().then((response) => {
                 this.institutions = response.data;
             }).catch((error) => {
-                toast.error(`${error}. Please try again later.`);
+                toast.error(`${error}. \nUnable to fetch institutions. Please try again later.`);
             });
         },
         createNewUser(newUser) {
