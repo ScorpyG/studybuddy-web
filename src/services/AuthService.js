@@ -1,8 +1,11 @@
-import http from '../http-common';
+import http from "../http-common";
 
-class UserService {
-    async updateUserAccount(userData, userId) {
-        return http.put(`/users/${userId}`, userData).then(response => {
+class AuthService {
+    async login(user) {
+        return http.post(`/login`, {
+            userEmail: user.email,
+            userPassword: user.password
+        }).then(response => {
             if (response.data !== null) {
                 const userSessionData = {
                     id: response.data.id,
@@ -16,11 +19,14 @@ class UserService {
                 }
                 sessionStorage.setItem('user', JSON.stringify(userSessionData));
             }
-        });
+        });   
     }
-    async getUserAccount(userId) {
-        return http.get(`/users/${userId}`);
+    logout() {
+        sessionStorage.removeItem('user');
+    }
+    async register(userData) {
+        return http.post(`/users`, userData);
     }
 }
 
-export default new UserService();
+export default new AuthService();

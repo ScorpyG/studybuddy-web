@@ -2,6 +2,7 @@
 import ProgramService from '@/services/ProgramService';
 import SignUpForm from '@/components/Forms/SignUpForm.vue';
 import InstitutionService from '@/services/InstitutionService';
+import AuthService from '@/services/AuthService';
 import { toast } from 'vue3-toastify';
 import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/helper/helpers'; 
 
@@ -25,14 +26,14 @@ export default {
             ProgramService.getAllPrograms().then((response) => {
                 this.programs = response.data;
             }).catch((error) => {
-                console.log(error);
+                toast.error(`${error}. \nUnable to fetch programs. Please try again later.`);
             });
         },
         getAllInstitutions() {
             InstitutionService.getAllInstitutions().then((response) => {
                 this.institutions = response.data;
             }).catch((error) => {
-                console.log(error);
+                toast.error(`${error}. \nUnable to fetch institutions. Please try again later.`);
             });
         },
         createNewUser(newUser) {
@@ -58,10 +59,34 @@ export default {
                 toast.error("Select your Institution");
             } 
             else {
-                toast.success("Sign up successful!")
-                console.log(newUser);
-                // TODO: handle userSignUp API call
+                toast.promise(this.signup(newUser), {
+                    pending: "Creating your account...",
+                    success: "Account created successfully",
+                    error: "Something went wrong"
+                });
             }
+        },
+        async signup(userData) {
+            const userDataParse = {
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                email: userData.email,
+                phoneNumber: userData.phoneNumber,
+                password: userData.password,
+                program: JSON.parse(userData.program),
+                institution: JSON.parse(userData.institution),
+                hobbies: userData.hobbies
+            }
+
+            await AuthService.register(userDataParse).then((response) => {
+                return new Promise((resolve) => {
+                    resolve(response);
+                });
+            }).catch((error) => {
+                return new Promise((resolve, reject) => {
+                    reject(error);
+                });
+            });
         }
     },
     created() {

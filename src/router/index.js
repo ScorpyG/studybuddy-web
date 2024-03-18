@@ -46,8 +46,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const userData = sessionStorage.getItem('user');
+    if (userData !== null) {
       // User is authenticated, allow access if the path is not signin or signup
       if (to.name === 'signin' || to.name === 'signup') {
         next('/home');
@@ -57,7 +57,6 @@ router.beforeEach((to, from, next) => {
     } else {
       // User is not authenticated, redirect to login
       next('/signin');
-      // next();
     }
   } else {
     // Non-protected route, allow access

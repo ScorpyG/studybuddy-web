@@ -1,103 +1,126 @@
 <script>
+import { toast } from 'vue3-toastify';
+import { PHONE_NUMBER_REGEX } from '@/helper/helpers';
 import ProgramService from '@/services/ProgramService';
 import InstitutionService from '@/services/InstitutionService';
 import ProfileForm from '@/components/Forms/ProfileForm.vue';
+import ProfileFormSkeleton from '@/components/Forms/ProfileFormSkeleton.vue';
+import UserService from '@/services/UserService';
 
 export default {
   name: 'ProfileView',
-  components: {
-    ProfileForm
-  },
   data() {
     return {
+      loading: false,
       programs: [],
       institutions: [],
       hobbies: [],
-      user: {
-        id: 1,
-        email: "testinguser1@test.com",
-        firstName: "user 1",
-        lastName: "testing",
-        phoneNumber: "111-111-1111",
-        program: {
-          id: 1,
-          code: "CSCI",
-          title: "Computer Science"
-        },
-        institution: {
-          id: 1,
-          institutionCode: "AJAE",
-          name: "Douglas College",
-          address: "700 Royal Ave",
-          city: "New Westminster",
-          state: "British Columbia",
-          country: "Canada"
-        },
-        hobbies: [
-          {
-            id: 3,
-            name: "Poetry writing",
-            category: "Creative Hobbies"
-          },
-          {
-            id: 1,
-            name: "Basketball",
-            category: "Active Hobbies"
-          },
-          {
-            id: 2,
-            name: "Swimming",
-            category: "Active Hobbies"
-          }
-        ]
-      }
+      user: {}
     }
+  },
+  components: {
+    ProfileForm,
+    ProfileFormSkeleton
   },
   methods: {
     getAllPrograms() {
       ProgramService.getAllPrograms().then((response) => {
-        this.programs = response.data;
+          this.programs = response.data;
       }).catch((error) => {
-        console.log(error);
+          toast.error(`${error}. Please try again later.`);
       });
     },
     getAllInstitutions() {
       InstitutionService.getAllInstitutions().then((response) => {
         this.institutions = response.data;
       }).catch((error) => {
-        console.log(error);
+        toast.error(`${error}. Please try again later.`);
       });
     },
-    updateUser(updatedUser) {
-      console.log(updatedUser);
+    getUser() {
+      this.loading = true;
+
+      // safe to assume if session storage doesn't contain user data, then user is not logged in
+      const userSessionData = JSON.parse(sessionStorage.getItem('user'));
+      if (userSessionData !== null) {
+        this.user = userSessionData;
+        this.loading = false;
+      }
+    },
+    updateUser(userData) {
+      if (userData.firstName === '') {
+        toast.error("First name is required");
+      }
+      else if (userData.lastName === '') {
+        toast.error("Last name is required");
+      }
+      else if (!userData.phoneNumber.match(PHONE_NUMBER_REGEX) || userData.phoneNumber === '') {
+        toast.error("Please enter the phone number in specified format");
+      } 
+      else if (userData.program === '' || userData.program === null || userData.program === undefined) {
+        toast.error("Select your Program");
+      } 
+      else if (userData.institution === '' || userData.institution === null || userData.institution === undefined) {
+        toast.error("Select your Institution");
+      } 
+      else {
+        toast.promise(this.updateUserRequest(userData), {
+          pending: "Updating your profile...",
+          success: "Profile updated successfully",
+          error: "Something went wrong"
+        });
+      }
+
+    },
+    async updateUserRequest(userData) {
+      const userDataParse = {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phoneNumber: userData.phoneNumber,
+        program: JSON.parse(userData.program),
+        institution: JSON.parse(userData.institution),
+        hobbies: userData.hobbies
+      }
+
+      await UserService.updateUserAccount(userDataParse, this.user.id).then((response) => {
+        return new Promise((resolve) => {
+          resolve(response);
+        });
+      }).catch((error) => {
+        return new Promise((resolve, reject) => {
+          reject(error);
+        });
+      });
     }
   },
   created() {
     this.getAllPrograms();
     this.getAllInstitutions();
+    this.getUser();
   },
 }
-
-// TODO: implement auth ensure only authenticated user can access this page
-// TODO: implement auth to get the user's profile data
 </script>
 
 <template>
     <div class="max-w-7xl mx-auto">
-        <h1 class="text-xl md:text-3xl font-bold text-center my-7">This is an profile page</h1>
+        <h1 class="text-xl md:text-3xl font-bold text-center my-7">Profile</h1>
         
-        <ProfileForm 
-          v-model:firstName="user.firstName"
-          v-model:lastName="user.lastName"
-          v-model:phoneNumber="user.phoneNumber"
+        <ProfileForm v-if="!loading"
+          :firstName="user.firstName"
+          :lastName="user.lastName"
+          :phoneNumber="user.phoneNumber"
+          :userCurrentProgram="user.program"
+          :userCurrentInstitution="user.institution"
+          :userCurrentHobbies="user.hobbies"
 
           :programs="programs"
           :institutions="institutions"
           :hobbies="hobbies"
+
           @updateUser="updateUser"
         />
 
-        {{ user }}
+        <ProfileFormSkeleton v-else />
     </div>
 </template>
 
