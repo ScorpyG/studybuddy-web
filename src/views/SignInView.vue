@@ -16,10 +16,10 @@ export default {
         signInUser(user) {
             if (user.email === '') {
                 toast.error("Email is required");
-            } 
+            }
             else if (user.password === '') {
                 toast.error("Password is required");
-            } 
+            }
             else {
                 toast.promise(this.signin(user), {
                     loading: 'Signing in...',
@@ -43,7 +43,6 @@ export default {
         }
     }
 }
-
 </script>
 
 <template>
