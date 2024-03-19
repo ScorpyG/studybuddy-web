@@ -67,7 +67,7 @@ export default {
 
   <!-- below button shows the popup when clicked. Use the onclick function in the matched list -->
   <button class="bg-blue-300 rounded p-4" @click="displayPopup(selectedMatchedUser)">Show Popup</button>
-  <Popup v-if="showPopup" @close="showPopup = false" :user=selectedMatchedUser />
+  <Popup v-if="showPopup" @close="showPopup = false" :user="selectedMatchedUser" :showPopup="showPopup" />
 </template>
 
 <style>
