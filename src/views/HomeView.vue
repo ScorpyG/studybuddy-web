@@ -1,46 +1,22 @@
 <script>
-import Popup from '@/components/Popup.vue';
+import Popup from "@/components/Popup.vue";
+import MatchedPairList from "@/components/MatchedPairList.vue";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   computed: {
     isLoggedIn() {
       return this.$store.state.isLoggedIn;
-    }
+    },
   },
   components: {
-    Popup
+    Popup,
+    MatchedPairList,
   },
   data() {
     return {
       showPopup: false, // Flag to control visibility of Popup
-      selectedMatchedUser: {
-        "id": 1,
-        "email": "testinguser2@test.com",
-        "password": "123456",
-        "firstName": "Chris",
-        "lastName": "Alexander",
-        "phoneNumber": "111-111-2222",
-        "program": {
-            "id": 2,
-            "code": "PSCI",
-            "title": "Computer Science"
-        },
-        "institution": {
-            "id": 1,
-            "institutionCode": "AJAE",
-            "name": "Douglas College",
-            "address": "700 Royal Ave",
-            "city": "New Westminster",
-            "state": "British Columbia",
-            "country": "Canada"
-        },
-        "hobbies": [
-            "Singing",
-            "Swimming",
-            "Chess"
-        ]
-      },
+      selectedMatchedUser: null,
     };
   },
   methods: {
@@ -52,7 +28,7 @@ export default {
       this.showPopup = true;
     },
   },
-}
+};
 </script>
 
 <template>
@@ -64,11 +40,19 @@ export default {
     </div>
   </div>
 
-
-  <!-- below button shows the popup when clicked. Use the onclick function in the matched list -->
-  <button class="bg-blue-300 rounded p-4" @click="displayPopup(selectedMatchedUser)">Show Popup</button>
-  <Popup v-if="showPopup" @close="showPopup = false" :user=selectedMatchedUser />
+  <!-- below button shows the popup when clicked. Use the onclick function in the matched list 
+  <button
+    class="bg-blue-300 rounded p-4"
+    @click="displayPopup(selectedMatchedUser)"
+  >
+    Show Popup
+  </button>-->
+  <MatchedPairList @openPopup="displayPopup" />
+  <Popup
+    v-if="showPopup"
+    @close="showPopup = false"
+    :user="selectedMatchedUser"
+  />
 </template>
 
-<style>
-</style>
+<style></style>
