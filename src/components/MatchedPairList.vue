@@ -66,7 +66,6 @@ export default {
       this.$emit("openPopup", user);
     },
     refreshPairs() {
-      // Re-fetch pairs with the user's ID
       const user = JSON.parse(sessionStorage.getItem("user"));
       if (user && user.id) {
         this.getUserPairs(user.id);
