@@ -48,11 +48,11 @@ export default {
     Show Popup
   </button>-->
   <MatchedPairList @openPopup="displayPopup" />
+
   <Popup
     v-if="showPopup"
     @close="showPopup = false"
     :user="selectedMatchedUser"
+    :showPopup="showPopup"
   />
 </template>
-
-<style></style>
