@@ -9,11 +9,6 @@ export default {
     IconConnection,
     IconBestMatch,
   },
-  computed: {
-    isLoggedIn() {
-      return this.$store.state.isLoggedIn;
-    },
-  },
 };
 </script>
 
@@ -26,33 +21,25 @@ export default {
         </h1>
         <p
           id="txt-el"
-          class="text-base md:text-lg lg:text-xl leading-relaxed mb-4 text-gray-700"
+          class="text-base md:text-lg lg:text-xl leading-relaxed my-4 text-gray-700"
         >
           Find study partners who share your academic interests and goals.
           Collaborate on projects, join study groups, or connect with mentors to
-          excel in your academic pursuits with Study<b class="text-blue-600"
-            >Buddy</b
-          >.
+          excel in your academic pursuits with Study<b class="text-blue-600">Buddy</b>.
         </p>
-        <router-link
-          v-if="!isLoggedIn"
+        <br />
+        <RouterLink
           to="/signup"
-          class="btn-get-started bg-blue-600 text-white py-2 px-4 rounded-md text-sm hover:bg-blue-700 transition duration-300"
+          class="btn-get-started bg-blue-600 text-white py-4 px-6 rounded-md text-lg font-bold hover:bg-blue-700 transition duration-300"
         >
           Get Started
-        </router-link>
-        <router-link
-          v-if="isLoggedIn"
-          to="/home"
-          class="btn-get-started bg-blue-600 text-white py-2 px-4 rounded-md text-sm hover:bg-blue-700 transition duration-300"
-        >
-          Continue
-        </router-link>
+        </RouterLink>
+
       </div>
       <div class="image-container flex-1">
         <img
           id="image"
-          src="/src/img/groupStudy.jpg"
+          src="/images/groupStudy.jpg"
           alt="Studying Process"
           class="rounded-lg shadow-lg max-w-full h-auto"
         />
@@ -64,12 +51,10 @@ export default {
         class="feature w-full sm:w-1/3 lg:w-1/4 mx-4 mb-8 mt-2 sm:mb-0 bg-white p-6 rounded-lg shadow-lg flex flex-col items-center"
       >
         <IconMatching class="icons mb-4 text-blue-600" />
-        <h2
-          class="text-lg text-center md:text-xl lg:text-2xl font-bold text-gray-800 mb-2"
-        >
-          <b class="font-normal">Matching Algorithm:</b>
+        <h2 class="text-lg text-center md:text-xl lg:text-2xl font-semibold text-gray-800 mb-2">
+          Matching Algorithm:
         </h2>
-        <p class="text-base md:text-lg lg:text-xl text-center text-gray-700">
+        <p class="text-base md:text-lg lg:text-xl text-left text-gray-700 mt-2">
           Discover study partners who share your academic interests, study
           habits, and goals using our sophisticated matching algorithm.
         </p>
@@ -79,12 +64,10 @@ export default {
         class="feature w-full sm:w-1/3 lg:w-1/4 mx-4 mb-8 mt-2 sm:mb-0 bg-white p-6 rounded-lg shadow-lg flex flex-col items-center"
       >
         <IconConnection class="icons mb-4 text-blue-600" />
-        <h2
-          class="text-lg text-center md:text-xl lg:text-2xl font-bold text-gray-800 mb-2"
-        >
-          <b class="font-normal">Connection with Matched Partners:</b>
+        <h2 class="text-lg text-center md:text-xl lg:text-2xl font-semibold text-gray-800 mb-2">
+          Connection with Matched Partners:
         </h2>
-        <p class="text-base md:text-lg lg:text-xl text-center text-gray-700">
+        <p class="text-base md:text-lg lg:text-xl text-left text-gray-700 mt-2">
           Easily connect with your ideal study partners once you find them
           through our platform.
         </p>
@@ -94,12 +77,10 @@ export default {
         class="feature w-full sm:w-1/3 lg:w-1/4 mx-4 mb-8 mt-2 sm:mb-0 bg-white p-6 rounded-lg shadow-lg flex flex-col items-center"
       >
         <IconBestMatch class="icons mb-4 text-blue-600" />
-        <h2
-          class="text-lg md:text-xl text-center lg:text-2xl font-bold text-gray-800 mb-2"
-        >
-          <b class="font-normal">Sorting by Best Match:</b>
+        <h2 class="text-lg md:text-xl text-center lg:text-2xl font-semibold text-gray-800 mb-2">
+          Sorting by Best Match:
         </h2>
-        <p class="text-base md:text-lg lg:text-xl text-center text-gray-700">
+        <p class="text-base md:text-lg lg:text-xl text-left text-gray-700 mt-2">
           Find the best study partners ranked by compatibility to enhance your
           collaborative learning experience.
         </p>

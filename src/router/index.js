@@ -1,5 +1,10 @@
+import ContactView from "@/views/ContactView.vue";
+import HomeView from "@/views/HomeView.vue";
+import LandingPageView from "@/views/LandingView.vue";
+import ProfileView from "@/views/ProfileView.vue";
+import SignInView from "@/views/SignInView.vue";
+import SignUpView from "@/views/SignUpView.vue";
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
 // TODO: implement authentication
 // https://medium.com/@tahnyybelguith/authentication-and-authorization-implementation-with-vue-js-6afcbb821c85
@@ -10,28 +15,32 @@ const router = createRouter({
     {
       path: "/welcome",
       name: "welcome",
-      component: () => import("../views/LandingPageView.vue"),
+      component: LandingPageView,
+      alias: "/intro",
     },
     {
       path: "/",
       name: "home",
       component: HomeView,
       alias: "/home",
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/signup",
       name: "signup",
-      component: () => import("../views/SignUpView.vue"),
+      component: SignUpView,
     },
     {
       path: "/signin",
       name: "signin",
-      component: () => import("../views/SignInView.vue"),
+      component: SignInView,
     },
     {
       path: "/profile",
       name: "profile",
-      component: () => import("../views/ProfileView.vue"),
+      component: ProfileView,
       meta: {
         requiresAuth: true,
       },
@@ -39,12 +48,7 @@ const router = createRouter({
     {
       path: "/contact",
       name: "contact",
-      component: () => import("../views/ContactView.vue"),
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/AboutView.vue"),
+      component: ContactView,
     },
   ],
 });
@@ -61,7 +65,7 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       // User is not authenticated, redirect to login
-      next("/signin");
+      next("/welcome");
     }
   } else {
     // Non-protected route, allow access
