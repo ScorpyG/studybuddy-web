@@ -52,7 +52,6 @@ export default {
 
                 <!-- nav links -->
                 <div class="hidden md:flex items-center space-x-3">
-                    <RouterLink to="/about" class="py-5 px-2 text-base">About</RouterLink>
                     <RouterLink to="/contact" class="py-5 px-2 text-base">Contact</RouterLink>
                 </div> 
 
@@ -98,7 +97,6 @@ export default {
 
             <RouterLink to="/profile" class="block py-2 px-4 text-md hover:bg-gray-200" v-if="isLoggedIn === true">Profile</RouterLink>
 
-            <RouterLink to="/about" class="block py-2 px-4 text-md hover:bg-gray-200">About</RouterLink>
             <RouterLink to="/contact" class="block py-2 px-4 text-md hover:bg-gray-200">Contact</RouterLink>
         </div>
     </nav>

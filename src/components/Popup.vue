@@ -5,6 +5,7 @@ import IconEmail from './Icons/IconEmail.vue';
 import IconInstitution from './Icons/IconInstitution.vue';
 import IconProgram from './Icons/IconProgram.vue';
 import IconHobbies from './Icons/IconHobbies.vue';
+import IconBlock from './Icons/IconBlock.vue';
 
 
 export default {
@@ -19,7 +20,8 @@ export default {
     IconEmail,
     IconInstitution,
     IconProgram,
-    IconHobbies
+    IconHobbies,
+    IconBlock
   },
   props: {
     showPopup: {
@@ -40,6 +42,9 @@ export default {
     },
     getInstitutionImage(institutionCode) {
       return `/images/institutions/${this.user.institution.institutionCode}.jpg`;
+    },
+    handleBlockUser() {
+      this.$emit('blockUser', this.user);
     }
   }
 };
@@ -65,49 +70,57 @@ export default {
                 <div class="mt-3 text-center sm:mt-5">
                   <DialogTitle as="h3" class="text-xl font-semibold leading-6 text-gray-900">{{ user.firstName }} {{ user.lastName }}</DialogTitle>
                   <div class="mt-4">
-                    <p class="text-sm text-gray-900 flex justify-center font-bold">
+                    <p class="text-sm text-gray-900 flex font-bold">
                       <IconInstitution />
-
                       {{ user.institution.name }}
                     </p>
                   </div>
 
                   <div class="mt-4">
-                    <p class="text-sm text-gray-900 flex justify-center">
+                    <p class="text-sm text-gray-900 flex font-bold">
                       <IconProgram />
-
                       {{ user.program.title }}
                     </p>
                   </div>
 
 
                   <div class="mt-4">
-                    <p class="text-sm text-gray-900 flex justify-center">
+                    <p class="text-sm text-gray-900 flex font-bold">
                       <IconHobbies />
                       Hobbies:
                     </p>
 
-                    <div class="flex justify-center">
+                    <div class="mt-3 flex flex-row flex-wrap gap-2 justify-center">
                       <div
-                          class="w-fit m-2 py-2 px-4 no-underline rounded-full text-white font-semibold bg-indigo-600"
-                          v-for="hobby in user.hobbies"
-                          :key="hobby"
+                        class="py-2 px-4 no-underline rounded-full text-white font-semibold bg-indigo-600"
+                        v-for="hobby in user.hobbies"
+                        :key="hobby"
                       >
                       {{ hobby }}
                       </div>
                     </div>
                   </div>
 
-                  <div class="">
-                    <button type="button" class="mt-4 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-blue-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-                    @click="makePhoneCall"
+                  <div>
+                    <button type="button" 
+                      class="mt-4 w-full justify-center inline-flex items-center 
+                      gap-x-2 rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold 
+                      text-white shadow-sm hover:bg-red-500 focus-visible:outline 
+                      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700"
+                      @click="handleBlockUser"
+                    >
+                      <IconBlock />
+                      Block
+                    </button>
+                    <button class="mt-2 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-blue-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                      @click="makePhoneCall"
                     >
                       <IconPhone />
                       Contact by phone
                     </button>
 
                     <button type="button" class="mt-2 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-blue-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-                    @click="sendEmail"
+                      @click="sendEmail"
                     >
                       <IconEmail />
                       Contact by email
