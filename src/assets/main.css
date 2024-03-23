@@ -3,6 +3,29 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: rebeccapurple;
+  --secondary: cornflowerblue;
+}
+/* Firefox */
+* {
+  scrollbar-width: thin;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  visibility: hidden;
+}
+
+*::-webkit-scrollbar-thumb {
+  visibility: hidden;
+  border-radius: 20px;
+}
+
 #app {
   /* max-width: 1280px; */
   margin: 0 auto;
