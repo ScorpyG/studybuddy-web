@@ -1,4 +1,6 @@
 <script>
+import { toast } from 'vue3-toastify';
+
 export default {
   data() {
     return {
@@ -31,7 +33,7 @@ export default {
   methods: {
     addHobby(event) {
       if (this.userHobbies.length >= 3) {
-        alert('You can only add up to 3 hobbies');
+        toast.warning('You can only add up to 3 hobbies');
       } else {
         if (event.key === 'Enter' && this.inputHobby) {
           if (!this.userHobbies.includes(this.inputHobby) && !this.userHobbies.includes(this.inputHobby.toLowerCase())) {
@@ -201,7 +203,7 @@ export default {
 
       <div class="flex flex-row flex-wrap gap-2 mt-4">
         <div
-          class="py-2 px-4 no-underline rounded-full text-white font-semibold bg-indigo-600 hover:bg-indigo-500 cursor-pointer"
+          class="py-2 px-4 no-underline rounded-full text-white font-semibold bg-blue-500 hover:bg-blue-400 cursor-pointer"
           v-for="hobby in userHobbies" 
           :key="hobby"
           @click.prevent="removeHobby(hobby)"
